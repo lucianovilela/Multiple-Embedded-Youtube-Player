@@ -1,37 +1,51 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import { parse } from '../lib/util';
-
+import * as  db from '../db'
 const ContextAuth = createContext();
 
 
 
-const videos  = [
+const videos = [
   "https://www.youtube.com/watch?v=o74vC5HMJFg",
   "https://www.youtube.com/watch?v=gzXxhegM9R0",
   "https://www.youtube.com/watch?v=nBkiOUVFJuU"];
 
 
 const InfoContext = ({ children }) => {
-  let listTemp = [];
+
+  useEffect(() => {
+    db.onAuthStateChanged((user) => {
+      action.setUser(user);
+    });
+  });
+
+
+
   const [state, dispatch] = React.useReducer(
     (prevState, action) => {
       var result = {};
       switch (action.type) {
         case 'INVERT_LOAD':
-          result = { 
+          result = {
             ...prevState,
-            isLoading : !prevState.isLoading,
-            
+            isLoading: !prevState.isLoading,
+
           }
           break;
-          case 'SET_LIST_VIDEO':
-            result= {
-              ...prevState,
-              listVideos: [...action.payload]
-            }
+        case 'SET_LIST_VIDEO':
+          result = {
+            ...prevState,
+            listVideos: [...action.payload]
+          }
+          break;
+        case 'SET_USER':
+          result = {
+            ...prevState,
+            currentUser: action.payload
+          }
           break;
         default:
-          result= {
+          result = {
             ...prevState,
           }
       }
@@ -39,7 +53,8 @@ const InfoContext = ({ children }) => {
     },
     {
       isLoading: false,
-      listVideos : videos
+      listVideos: videos,
+      currentUser: null
     }
   );
 
@@ -47,26 +62,31 @@ const InfoContext = ({ children }) => {
 
   const action = React.useMemo(() => ({
     invertLoading: async () => {
-       dispatch({ type: 'INVERT_LOAD' });
+      dispatch({ type: 'INVERT_LOAD' });
     },
 
-    addVideo:  (url)=>{
-      if(!state.listVideos.includes(url)){
-         dispatch({ 
-          type: 'SET_LIST_VIDEO', 
-          payload:[...state.listVideos, url] 
+    addVideo: (url) => {
+      if (!state.listVideos.includes(url)) {
+        dispatch({
+          type: 'SET_LIST_VIDEO',
+          payload: [...state.listVideos, url]
         });
       }
     },
-    deleteVideo:  (url)=>{
-      if(state.listVideos.includes(url)){
-         dispatch({ 
-          type: 'SET_LIST_VIDEO', 
-          payload:[...state.listVideos.filter(item=>item!==url)] 
+    deleteVideo: (url) => {
+      if (state.listVideos.includes(url)) {
+        dispatch({
+          type: 'SET_LIST_VIDEO',
+          payload: [...state.listVideos.filter(item => item !== url)]
         });
       }
+    },
+    setUser: (user) => {
+      dispatch({
+        type: 'SET_USER',
+        payload: [...state.listVideos, user]
+      });
     }
-
 
 
   }));

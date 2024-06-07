@@ -9,7 +9,7 @@ const InputVideo = () => {
     const { action, state } = useInfo();
     const [url, setUrl] = useState('')
     return (
-        <Box>
+        <Box alignItems={'center'}>
             <TextField
 
                 type="url"
@@ -22,7 +22,7 @@ const InputVideo = () => {
             <IconButton onClick={() => {
                 action.addVideo(url);
                 setUrl('');
-            }}>
+            }} color="primary">
                 <Add />
             </IconButton>
         </Box>
