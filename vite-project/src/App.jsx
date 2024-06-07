@@ -8,22 +8,18 @@ import { Card, CardActionArea, CardContent, CardHeader, CircularProgress, Grid }
 import TextArea from './components/TextArea';
 import { VideoArea } from './components/VideoArea';
 
-import  Teste  from './Teste'
+import Teste from './Teste'
+import { InfoContext } from './context/InfoContext';
 function App() {
 
-  useEffect(()=>{
-    try {
-      videoarea = document.getElementById("videoarea");
-      
-    } catch (error) {
-      console.error(error)
-    }
-  });
 
   return (
-    <Container >
-      <Teste/>
-    </Container>
+    <InfoContext>
+
+      <Container >
+        <Teste />
+      </Container>
+    </InfoContext>
   )
 }
 

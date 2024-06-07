@@ -1,7 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { load, parse, addPlayer } from './lib/util'
-import { Grid, Box, Card, ListItem, List, IconButton } from '@mui/material';
-import { AccessAlarm, ThreeDRotation, Delete } from '@mui/icons-material';
+import { parse, addPlayer } from './lib/util'
+import { Grid, Box, Card, ListItem, List, IconButton, FormControl, TextField } from '@mui/material';
+import { Add, Delete } from '@mui/icons-material';
+
+import { useInfo } from './context/InfoContext'
+
+const InputVideo = () => {
+    const { action, state } = useInfo();
+    const [url, setUrl] = useState('')
+    return (
+        <Box>
+            <TextField
+
+                type="url"
+                id="urlY"
+                label="Url Youtube"
+                helperText="https://www.youtube.com/watch?v=nBkiOUVFJuU"
+                value={url}
+                onChange={(event) => setUrl(event.target.value)}
+            />
+            <IconButton onClick={() => {
+                action.addVideo(url);
+                setUrl('');
+            }}>
+                <Add />
+            </IconButton>
+        </Box>
+    )
+}
+
 
 const ItemVideo = ({ vid }) => {
     useEffect(() => {
@@ -16,34 +43,33 @@ const ItemVideo = ({ vid }) => {
         }
         )
     }, [vid])
-    const refVideo = useRef();
 
-    return (<div ref={refVideo} id={`${vid}`}>{vid} </div>)
+
+    return (<div id={`${vid}`}>{vid} </div>)
 
 }
 
 
 
 const Teste = () => {
-    const [target, setTarget] = useState(null);
-    const [videos, setVideos] = useState([
-        "https://www.youtube.com/watch?v=o74vC5HMJFg",
-        "https://www.youtube.com/watch?v=gzXxhegM9R0",
-        "https://www.youtube.com/watch?v=nBkiOUVFJuU"]);
+    const { action, state } = useInfo();
 
 
     return (
         <Box>
+            <Box>
+                <InputVideo />
 
-            <Box alignItems={'center'} justifyContent={'center'}>
+            </Box>
+            <Box >
 
                 <List container >
 
-                    {videos.map((v, i) =>
+                    {state.listVideos.map((v, i) =>
                         <ListItem item xs="1" key={`listaItem-${i}`}>{v}
-                            <IconButton aria-label="delete" onClick={() => {
-                                setVideos(["https://www.youtube.com/watch?v=o74vC5HMJFg",
-                                    "https://www.youtube.com/watch?v=gzXxhegM9R0"])
+
+                            <IconButton onClick={() => {
+                                action.deleteVideo(v)
                             }}>
                                 <Delete />
                             </IconButton>
@@ -52,11 +78,11 @@ const Teste = () => {
                 </List>
             </Box>
 
-            <Box alignItems={'center'} justifyContent={'center'}>
+            <Box >
 
                 <Grid container >
 
-                    {parse(videos).map(v => {
+                    {parse(state.listVideos).map(v => {
                         return <Grid item xs="12">
                             <ItemVideo vid={v} />
                         </Grid>
