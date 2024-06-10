@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { parse, addPlayer } from './lib/util'
-import { Grid, Box, Card, ListItem, List, IconButton, FormControl, TextField } from '@mui/material';
+import { Grid, Box, Card, ListItem, List, IconButton, FormControl, TextField, CardMedia, CardHeader } from '@mui/material';
 import { Add, Delete } from '@mui/icons-material';
 
 import { useInfo } from './context/InfoContext'
@@ -66,10 +66,10 @@ const Teste = () => {
                 <List container >
 
                     {state.listVideos.map((v, i) =>
-                        <ListItem item xs="1" key={`listaItem-${i}`}>{v}
+                        <ListItem item xs="1" key={`listaItem-${i}`}>{v.url}
 
                             <IconButton onClick={() => {
-                                action.deleteVideo(v)
+                                action.deleteVideo(v.url)
                             }}>
                                 <Delete />
                             </IconButton>
@@ -80,11 +80,16 @@ const Teste = () => {
 
             <Box >
 
-                <Grid container >
+                <Grid container sx={{height:'100vh'}} >
 
-                    {parse(state.listVideos).map(v => {
-                        return <Grid item xs="12">
-                            <ItemVideo vid={v} />
+                    {parse(state.listVideos.map(i=>i.url)).map(v => {
+                        return <Grid item xs={12} md={6} lg={4}>
+                            <Card>
+                                <CardMedia>
+                                    <CardHeader title={v}/>
+                                    <ItemVideo vid={v} />
+                                </CardMedia>
+                            </Card>
                         </Grid>
                     }
                     )}

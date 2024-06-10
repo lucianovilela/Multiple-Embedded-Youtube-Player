@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta name="author" content="kkchengaf (John)">
-    <meta name="description" content="Playing multiple YouTube videos at the same time. Watching multiple live streams with live chat support. Adjust video layouts to best fit your preference!">
-    <meta name="google-site-verification" content="aGqaF2FqE0Z8Vl8z9-x4_QSSrOARrvSJsTggaoFUV_8" />
+
+<head>
+  <meta name="author" content="kkchengaf (John)">
+  <meta name="description"
+    content="Playing multiple YouTube videos at the same time. Watching multiple live streams with live chat support. Adjust video layouts to best fit your preference!">
+  <meta name="google-site-verification" content="aGqaF2FqE0Z8Vl8z9-x4_QSSrOARrvSJsTggaoFUV_8" />
 
 
-    <title>Multiple Embedded Youtube Player</title>
-  </head>
+  <title>Multiple Embedded Youtube Player</title>
+  <script>
+    // 2. This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-  <body id="body"   class="">
-    <div id="root"></div>
+  </script>
+</head>
 
-    <script type="module" src="/src/main.jsx"></script>
+<body id="body" class="" >
+  <div id="root"></div>
 
-    <script src="script/yt.js"></script>
+  <script type="module" src="/src/main.jsx"></script>
 
 
-  </body>
+
+
+</body>
+
 </html>

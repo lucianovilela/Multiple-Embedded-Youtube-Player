@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getFirestore, collection, getDocs,  } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, setDoc,addDoc, deleteDoc, doc } from 'firebase/firestore/lite';
 import { getAuth } from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -27,11 +27,19 @@ const auth = getAuth(app);
 export async function getList(path) {
     const col = collection(db, path);
     const snapshot = await getDocs(col);
-    const list = snapshot.docs.map(doc => doc.data());
+    const list = snapshot.docs.map(doc =>({ id:doc.id, ...doc.data()}));
     return list;
 }
 
 export async function onAuthStateChanged(func){
     if(typeof func === 'function')
         auth.onAuthStateChanged(func);
+}
+
+export async function deleteUrl(id){
+  await deleteDoc(doc(db, "urls", id));
+}
+
+export async function saveUrl(url){
+  await addDoc(collection(db, "urls"), {url});
 }

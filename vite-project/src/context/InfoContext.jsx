@@ -5,19 +5,28 @@ const ContextAuth = createContext();
 
 
 
-const videos = [
-  "https://www.youtube.com/watch?v=o74vC5HMJFg",
-  "https://www.youtube.com/watch?v=gzXxhegM9R0",
-  "https://www.youtube.com/watch?v=nBkiOUVFJuU"];
 
 
 const InfoContext = ({ children }) => {
 
   useEffect(() => {
-    db.onAuthStateChanged((user) => {
-      action.setUser(user);
-    });
-  });
+    (async ()=>{
+
+      db.onAuthStateChanged((user) => {
+        action.setUser(user);
+      });
+
+      const urls = await db.getList('urls');
+
+      
+      action.setVideos(urls);
+      
+
+
+    })();
+
+
+  },[]);
 
 
 
@@ -53,7 +62,7 @@ const InfoContext = ({ children }) => {
     },
     {
       isLoading: false,
-      listVideos: videos,
+      listVideos: [],
       currentUser: null
     }
   );
@@ -64,22 +73,33 @@ const InfoContext = ({ children }) => {
     invertLoading: async () => {
       dispatch({ type: 'INVERT_LOAD' });
     },
-
-    addVideo: (url) => {
-      if (!state.listVideos.includes(url)) {
+    setVideos: (urls) => {
+      
         dispatch({
           type: 'SET_LIST_VIDEO',
-          payload: [...state.listVideos, url]
+          payload: [...urls]
+        });
+      
+    },
+    addVideo: (url) => {
+      if (!state.listVideos.includes(url)) {
+        db.saveUrl(url);
+        dispatch({
+          type: 'SET_LIST_VIDEO',
+          payload: [...state.listVideos, {url}]
         });
       }
     },
     deleteVideo: (url) => {
-      if (state.listVideos.includes(url)) {
+      state.listVideos.forEach(item=>{
+        if(item.url === url)
+          db.deleteUrl(item.id);
+      });
         dispatch({
           type: 'SET_LIST_VIDEO',
-          payload: [...state.listVideos.filter(item => item !== url)]
+          payload: [...state.listVideos.filter(item=>item.url !== url)]
         });
-      }
+      
     },
     setUser: (user) => {
       dispatch({
