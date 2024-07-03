@@ -1,3 +1,4 @@
+"use client";
 import { TextareaAutosize } from '@mui/material'
 import React from 'react'
 
