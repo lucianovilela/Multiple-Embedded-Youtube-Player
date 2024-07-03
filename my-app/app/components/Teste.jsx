@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { parse, addPlayer } from '@/app/lib/util'
 import { Grid, Box, Card, ListItem, List, IconButton, FormControl, TextField, CardMedia, CardHeader } from '@mui/material';
@@ -7,6 +7,7 @@ import { Add, Delete } from '@mui/icons-material';
 import { useInfo } from '@/app/context/InfoContext'
 
 import { InputVideo, ItemVideo } from '@/app/components/InputVideo';
+import Head from 'next/head';
 
 const Teste = () => {
     const { action, state } = useInfo();
@@ -14,6 +15,11 @@ const Teste = () => {
 
     return (
         <Box>
+            <Head>
+
+                <script src="https://www.youtube.com/iframe_api" type="text/javascript">
+                </script>
+            </Head>
             <Box>
                 <InputVideo />
 
@@ -37,13 +43,13 @@ const Teste = () => {
 
             <Box >
 
-                <Grid container sx={{height:'100vh'}} >
+                <Grid container sx={{ height: '100vh' }} >
 
-                    {parse(state.listVideos.map(i=>i.url)).map(v => {
+                    {parse(state.listVideos.map(i => i.url)).map(v => {
                         return <Grid item xs={12} md={6} lg={4}>
                             <Card>
                                 <CardMedia>
-                                    <CardHeader title={v}/>
+                                    <CardHeader title={v} />
                                     <ItemVideo vid={v} />
                                 </CardMedia>
                             </Card>
