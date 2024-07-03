@@ -15,11 +15,7 @@ const Teste = () => {
 
     return (
         <Box>
-            <Head>
-
-                <script src="https://www.youtube.com/iframe_api" type="text/javascript">
-                </script>
-            </Head>
+  
             <Box>
                 <InputVideo />
 
