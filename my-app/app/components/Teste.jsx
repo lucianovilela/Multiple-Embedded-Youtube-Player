@@ -14,15 +14,12 @@ const Teste = () => {
 
 
     return (
-        <Box>
-  
-            <Box>
-                <InputVideo />
+        <div>
+            {/*
 
-            </Box>
-            <Box >
+                <Box >
 
-                <List container >
+                <List  >
 
                     {state.listVideos.map((v, i) =>
                         <ListItem item xs="1" key={`listaItem-${i}`}>{v.url}
@@ -37,6 +34,7 @@ const Teste = () => {
                 </List>
             </Box>
 
+               */ }
             <Box >
 
                 <Grid container sx={{ height: '100vh' }} >
@@ -57,7 +55,7 @@ const Teste = () => {
             <Box>
                 <div id='target' />
             </Box>
-        </Box>
+        </div>
 
     )
 }
